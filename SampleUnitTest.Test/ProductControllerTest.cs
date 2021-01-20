@@ -86,5 +86,46 @@ namespace SampleUnitTest.Test
             Assert.IsType<ViewResult>(result);
         }
 
+        [Fact]
+        public async void CreatePOST_InValidModelState_ReturnView()
+        {
+            _productController.ModelState.AddModelError("Name", "Name alanı gereklidir.");
+
+            var result = await _productController.Create(products.First());
+            var viewResult = Assert.IsType<ViewResult>(result);
+
+            Assert.IsType<Product>(viewResult.Model);
+        }
+
+        [Fact]
+        public async void CreatePOST_ValidModelState_ReturnRedirectToIndexAction()
+        {
+            var result = await _productController.Create(products.First());
+            var redirect = Assert.IsType<RedirectToActionResult>(result);
+
+            Assert.Equal("Index", redirect.ActionName);
+        }
+
+        [Fact]
+        public async void CreatePOST_ValidModelState_CreateMethodExecute()
+        {
+            Product product = null;
+            _mockRepository.Setup(repo => repo.Create(It.IsAny<Product>())).Callback<Product>(x => product = x);
+
+            var result = await _productController.Create(products.First());
+
+            _mockRepository.Verify(repo => repo.Create(It.IsAny<Product>()), Times.Once);
+            Assert.Equal(products.First().Id, product.Id);
+        }
+
+        [Fact]
+        public async void CreatePOST_InValidModelState_NeverCreateExecute()
+        {
+            _productController.ModelState.AddModelError("Name", "");
+
+            var result = await _productController.Create(products.First());
+            _mockRepository.Verify(repo => repo.Create(It.IsAny<Product>()), Times.Never);
+        }
+
     }
 }
