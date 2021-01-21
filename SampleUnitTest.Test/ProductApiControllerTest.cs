@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SampleUnitTest.Web.Controllers;
+using SampleUnitTest.Web.Helpers;
 using SampleUnitTest.Web.Models;
 using SampleUnitTest.Web.Repository;
 using System.Collections.Generic;
@@ -14,14 +15,24 @@ namespace SampleUnitTest.Test
     {
         private Mock<IRepository<Product>> _mockRepository;
         private ProductApiController _productApiController;
+        private Helper _helper;
         private List<Product> products;
         public ProductApiControllerTest()
         {
             _mockRepository = new Mock<IRepository<Product>>();
             _productApiController = new ProductApiController(_mockRepository.Object);
+            _helper = new Helper();
 
             products = new List<Product>() { new Product { Id = 1,Name = "Kalem",Price = 100, Stock = 50, Color = "Kırmızı" },
                                                 new Product{Id = 2,Name = "Defter",Price = 200,Stock = 500,Color = "Mavi" }};
+        }
+
+        [Theory]
+        [InlineData(4,5,9)]
+        public void Add_SampleValues_ReturnTotal(int a, int b, int total)
+        {
+            var result = _helper.add(a, b);
+            Assert.Equal(total,result);
         }
 
         [Fact]
