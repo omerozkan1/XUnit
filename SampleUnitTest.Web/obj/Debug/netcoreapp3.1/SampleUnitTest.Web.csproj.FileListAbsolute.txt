@@ -70,3 +70,4 @@ C:\Users\ÖmerÖzkan\source\repos\SampleUnitTest\SampleUnitTest.Web\obj\Debug\ne
 C:\Users\ÖmerÖzkan\source\repos\SampleUnitTest\SampleUnitTest.Web\obj\Debug\netcoreapp3.1\Razor\Views\Product\Detail.cshtml.g.cs
 C:\Users\ÖmerÖzkan\source\repos\SampleUnitTest\SampleUnitTest.Web\obj\Debug\netcoreapp3.1\Razor\Views\Product\Edit.cshtml.g.cs
 C:\Users\ÖmerÖzkan\source\repos\SampleUnitTest\SampleUnitTest.Web\obj\Debug\netcoreapp3.1\Razor\Views\Product\Index.cshtml.g.cs
+C:\Users\ÖmerÖzkan\source\repos\SampleUnitTest\SampleUnitTest.Web\obj\Debug\netcoreapp3.1\SampleUnitTest.Web.csprojAssemblyReference.cache
