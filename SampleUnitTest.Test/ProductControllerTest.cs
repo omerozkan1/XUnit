@@ -154,7 +154,7 @@ namespace SampleUnitTest.Test
         [InlineData(2)]
         public async void Edit_ActionExecutes_ReturnProduct(int productId) 
         {
-            var product = products.First(x => x.Id == productId);
+            var product = GetProductModel(productId);
             _mockRepository.Setup(repo => repo.GetById(productId)).ReturnsAsync(product);
 
             var result = await _productController.Edit(productId);
@@ -199,12 +199,11 @@ namespace SampleUnitTest.Test
         [InlineData(1)]
         public void EditPOST_ValidModelState_EditMethodExecute(int productId)
         {
-            var product = products.First(x => x.Id == productId);
+            var product = GetProductModel(productId);
             _mockRepository.Setup(repo => repo.Update(product));
             _productController.Edit(productId, product);
 
             _mockRepository.Verify(repo => repo.Update(It.IsAny<Product>()), Times.Once);
-
         }
 
         [Fact]
@@ -230,7 +229,7 @@ namespace SampleUnitTest.Test
         [InlineData(1)]
         public async void Delete_ActionExecutes_ReturnProduct(int productId)
         {
-            var product = products.First(x => x.Id == productId);
+            var product = GetProductModel(productId);
             _mockRepository.Setup(repo => repo.GetById(productId)).ReturnsAsync(product);
 
             var result = await _productController.Delete(productId);
@@ -244,7 +243,6 @@ namespace SampleUnitTest.Test
         public async void DeleteConfirmed_ActionExecutes_ReturnRedirectToIndexAction(int productId)
         {
             var result = await _productController.DeleteConfirmed(productId);
-
             Assert.IsType<RedirectToActionResult>(result);
         }
 
@@ -253,12 +251,16 @@ namespace SampleUnitTest.Test
         [InlineData(1)]
         public async void DeleteConfirmed_ActionExecutes_DeleteMethodExecute(int productId)
         {
-            var product = products.First(x => x.Id == productId);
+            var product = GetProductModel(productId);
             _mockRepository.Setup(repo => repo.Delete(product));
 
             await _productController.DeleteConfirmed(productId);
-
             _mockRepository.Verify(repo => repo.Delete(It.IsAny<Product>()), Times.Once);
+        }
+
+        private Product GetProductModel(int productId)
+        {
+            return products.First(x => x.Id == productId);
         }
     }
 }
